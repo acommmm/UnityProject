@@ -6,6 +6,9 @@ public class BulletController : MonoBehaviour
 {
     // 총알 속도
     private float Speed;
+    private float hp;
+
+    public GameObject fxPrefab;
     //private SpriteRenderer spriteRenderer;
     //private Vector3 dst;
     //private float distance;
@@ -15,6 +18,7 @@ public class BulletController : MonoBehaviour
    
     private void Start()
     {
+        hp = 1;
         //distance = 5.0f;
         //dst = transform.position;
         //spriteRenderer = this.GetComponent<SpriteRenderer>();
@@ -37,12 +41,39 @@ public class BulletController : MonoBehaviour
 
     // Enter : 충돌된 순간 프레임 
     // Stay : 충돌된 다음 프레임부터 Exit프레임 직전까지
-    // Exit : 충돌이 끝나기 직전 프레임
+    // Exit : 충돌이 끝난 후 그 다음 프레임
 
     // Trigger : 충돌 판정만하고 충돌체를 통과한다.
     // Collision : 충돌 판정을하고 충돌체와 충돌한다.
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        DestroyObject(this.gameObject);   
+        if(collision.tag == ("wall"))
+        {
+            DestroyObject(this.gameObject);
+            return;
+        }
+        --hp;
+
+        GameObject Obj = Instantiate(fxPrefab);
+        
+        GameObject camera = new GameObject("Camera Test");
+        camera.AddComponent<CameraController>();
+
+        Obj.transform.position = transform.position;
+
+        DestroyObject(collision.transform.gameObject);     
+        print("Engter");
+
+        if (hp == 0) { }
+            //DestroyObject(this.gameObject);
+
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        print("Stay");
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        print("Exit");
     }
 }
