@@ -2346,8 +2346,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Bullets: []
-  BulletPrefab: {fileID: 2931861878234106450, guid: bbd162b0c53ed8845842574282f3c63f, type: 3}
-  fxPrefab: {fileID: 1892078723244562, guid: 07670029587d80b488d96a50179dc803, type: 3}
   stageBack:
   - {fileID: 0}
   - {fileID: 0}
@@ -2356,6 +2354,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  DirLeft: 0
+  DirRight: 0
 --- !u!1 &2131603207
 GameObject:
   m_ObjectHideFlags: 0

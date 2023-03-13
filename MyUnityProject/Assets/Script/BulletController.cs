@@ -21,7 +21,7 @@ public class BulletController : MonoBehaviour
         // 속도 초기값
         Speed = 10.0f;
         // 총알의 최대 충돌 횟수 지정
-        hp = 1;
+        hp = 2;
     }
     void Update()
     {
@@ -41,16 +41,6 @@ public class BulletController : MonoBehaviour
     {
         // 충돌 횟수 차감.
         --hp;
-        
-
-        if (collision.tag == ("wall"))
-        {
-            Destroy(this.gameObject);
-            return;
-        }
-        else if (hp == 0) // 총알의 충돌 횟수가 0 되면 총알 삭제.
-           Destroy(this.gameObject);
-           
 
         // 이펙트효과 복제
         GameObject Obj = Instantiate(fxPrefab);
@@ -65,7 +55,13 @@ public class BulletController : MonoBehaviour
         Obj.transform.position = transform.position;
 
         // 충돌한 대상을 삭제
-        Destroy(collision.transform.gameObject);     
+        if(collision.transform.tag != "wall")
+            Destroy(collision.transform.gameObject);
+        else
+            Destroy(this.gameObject);
+            
+        if (hp == 0)
+            Destroy(this.gameObject);
     }
     private void OnTriggerStay2D(Collider2D collision)
     {

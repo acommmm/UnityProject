@@ -27,10 +27,10 @@ public class PlayerController : MonoBehaviour
     public List<GameObject> Bullets = new List<GameObject>(); 
 
     // 복사할 총알 원본
-    public GameObject BulletPrefab;
+    private GameObject BulletPrefab;
 
     // 복사할 FX 원본
-    public GameObject fxPrefab;
+    private GameObject fxPrefab;
 
     public GameObject[] stageBack = new GameObject[7];
     // 플레이어가 마지막으로 바라본 방향
@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour
     public bool DirLeft;
     public bool DirRight;
 
+   
     // 유니티 기본 제공 함수
     // 초기값 설정 할 때 사용
     private void Awake()
@@ -47,6 +48,10 @@ public class PlayerController : MonoBehaviour
         animator = this.GetComponent<Animator>();
         // SpriteRenderer를 받아온다.
         spriteRenderer = this.GetComponent<SpriteRenderer>();
+
+        // [Resources] 폴더에서 사용할 리소스를 들고온다. "Resources" 라는 폴더가 존재해야함
+        BulletPrefab = Resources.Load("Prefabs/Bullet") as GameObject;
+        fxPrefab = Resources.Load("Prefabs/FX/Smoke") as GameObject;
     }
     void Start()
     {
@@ -54,10 +59,6 @@ public class PlayerController : MonoBehaviour
         Speed = 5.0f;
         hitCount = 0;
         Direction = 1.0f;
-
-        for (int i = 0; i < 7; ++i)
-            stageBack[i] = GameObject.Find(i.ToString());
-
         // 초기값 세팅
         onAttack = false;
         onHit = false;
@@ -68,6 +69,9 @@ public class PlayerController : MonoBehaviour
 
         DirLeft = false;
         DirRight = false;
+
+        for (int i = 0; i < 7; ++i)
+            stageBack[i] = GameObject.Find(i.ToString());
     }
 
     // 유니티 기본 제공 함수
@@ -81,34 +85,53 @@ public class PlayerController : MonoBehaviour
         float Ver = 0;
         //float Ver = Input.GetAxisRaw("Vertical");
 
-
+        Movement = new Vector3(
+          Hor * Time.deltaTime * Speed,
+          Ver * Time.deltaTime * Speed,
+          0.0f);
 
         // Hor이 0이라면 멈춰있는 상태이므로 예외처리
         if (Hor != 0)
             Direction = Hor;
-        else
-        {
-            DirLeft = false;
-            DirRight = false;
-        }
 
-        // 바라보고있는 방향에 따라 이미지 플립설정
-        if (Direction < 0)
-        {
-            spriteRenderer.flipX = DirLeft = true;
-            // 실제 플레이어를 움직인다.
-            transform.position += Movement;
-        }
-            
-        else if (Direction > 0)
-        {
-            spriteRenderer.flipX = false;
-            DirRight = true;
-            if(transform.position.x < 0)
-            {
+       
+
+        if (Input.GetKey(KeyCode.RightArrow)|| Input.GetKey(KeyCode.D))
+        {            
+            // ** 플레이어의 좌표가 0.0 보다 작을 때 플레이어만 움직인다. 
+            if (transform.position.x < 0)
                 transform.position += Movement;
+            else
+            {
+                ControllerManager.GetInstance().DirRight = true;
+                ControllerManager.GetInstance().DirLeft = false;
             }
         }
+
+        if (Input.GetKey(KeyCode.LeftArrow)|| Input.GetKey(KeyCode.A))
+        {
+            ControllerManager.GetInstance().DirRight = false;
+            ControllerManager.GetInstance().DirLeft = true;
+            
+            // ** 플레이어의 좌표가 -15.0보다 클 때
+            if(transform.position.x > -15.0f)
+                // ** 실제 플레이어를 움직인다.
+                transform.position += Movement;
+        }
+
+        if (Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.LeftArrow))
+        {
+            ControllerManager.GetInstance().DirRight = false;
+            ControllerManager.GetInstance().DirLeft = false;
+        }
+
+        
+        // 바라보고있는 방향에 따라 이미지 플립설정
+        if (Direction < 0)
+            spriteRenderer.flipX = DirLeft = true;       
+        else if (Direction > 0)
+            spriteRenderer.flipX = false;
+
         
 
 
@@ -128,10 +151,7 @@ public class PlayerController : MonoBehaviour
         ////spriteRenderer.flipX = Hor < 0 ? true : false;
 
         // 입력받은 값으로 플레이어 움직임
-        Movement = new Vector3(
-           Hor * Time.deltaTime * Speed,
-           Ver * Time.deltaTime * Speed,
-           0.0f);
+        
 
         // 좌측 컨트롤 키 입력시 
         if (Input.GetKey(KeyCode.LeftControl))
