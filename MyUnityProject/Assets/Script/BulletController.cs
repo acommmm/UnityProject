@@ -55,7 +55,7 @@ public class BulletController : MonoBehaviour
         Obj.transform.position = transform.position;
 
         // 충돌한 대상을 삭제
-        if(collision.transform.tag != "wall")
+        if(collision.transform.tag != "wall" && collision.transform.tag != "BackGround")
             Destroy(collision.transform.gameObject);
         else
             Destroy(this.gameObject);

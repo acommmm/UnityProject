@@ -37,9 +37,7 @@ public class BackGroundController : MonoBehaviour
         // 플레이어 이미지를 담고있는 구성요소를 받아온다.
         playerController = player.GetComponent<PlayerController>();
         // 현재 이미지를 담고있는 구성요소를 받아온다.
-        spriteRenderer = GetComponent<SpriteRenderer>();
-
-       
+        spriteRenderer = GetComponent<SpriteRenderer>();      
     }
 
     void Start()
@@ -54,6 +52,7 @@ public class BackGroundController : MonoBehaviour
 
     void Update()
     {
+        offset.y = player.transform.position.y * -1;
         // 이동정보 셋팅 
         movemane = new Vector3(
             Input.GetAxisRaw("Horizontal") * Time.deltaTime * Speed + offset.x,
@@ -61,16 +60,12 @@ public class BackGroundController : MonoBehaviour
             0.0f + offset.z);
         // singletone
         // 플레이어가 바라보고있는 방향에 따라 분기된다.
-        if (ControllerManager.GetInstance().DirLeft)
-        {
-            // 이동 정보 적용
-            endPoint -= movemane.x;
-        }
         if(ControllerManager.GetInstance().DirRight)
         {
-            //if(transform.position.x <= 0)           
-                transform.position -= movemane;
+            endPoint -= movemane.x;
+            transform.position -= movemane;
         }
+
         //movemane = Vector3.zero;
         //if (Input.GetAxisRaw("Horizontal") > 0 && player.transform.position.x >= 0)
         //{
@@ -78,16 +73,12 @@ public class BackGroundController : MonoBehaviour
         //        Input.GetAxisRaw("Horizontal") * Time.deltaTime * Speed + offset.x,
         //        player.transform.position.y + offset.y,
         //        0.0f + offset.z);
-        //}
-
-        
-
-        
-        
+        //} 
 
         // 동일 이미지 복사
         if (player.transform.position.x + sprite.bounds.size.x * 0.5f + 1 > endPoint)
         {
+            print("123123");
             // 복사 이미지 생성
             GameObject Obj = Instantiate(this.gameObject);
 

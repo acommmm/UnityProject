@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-
 public class PlayerController : MonoBehaviour
 {
     private int hitCount;
@@ -32,7 +31,12 @@ public class PlayerController : MonoBehaviour
     // 복사할 FX 원본
     private GameObject fxPrefab;
 
-    public GameObject[] stageBack = new GameObject[7];
+    //public GameObject[] stageBack = new GameObject[7];
+
+    // dictianary<string, GameObject> asd;
+
+    // 배경화면 저장 공간
+    public List<GameObject> stageBack = new List<GameObject>();
     // 플레이어가 마지막으로 바라본 방향
     private float Direction;
 
@@ -52,9 +56,20 @@ public class PlayerController : MonoBehaviour
         // [Resources] 폴더에서 사용할 리소스를 들고온다. "Resources" 라는 폴더가 존재해야함
         BulletPrefab = Resources.Load("Prefabs/Bullet") as GameObject;
         fxPrefab = Resources.Load("Prefabs/FX/Smoke") as GameObject;
+        //for (int i = 0; i < 7; ++i)
+        //    stageBack.Add(GameObject.Find(i.ToString()));
+        stageBack.Add(GameObject.Find("0"));
+        stageBack.Add(GameObject.Find("1"));
+        stageBack.Add(GameObject.Find("2"));
+        stageBack.Add(GameObject.Find("3"));
+        stageBack.Add(GameObject.Find("4"));
+        stageBack.Add(GameObject.Find("5"));
+        stageBack.Add(GameObject.Find("6"));
     }
     void Start()
     {
+        EnemyManager.GetInstance.CreateTest();
+
         // 속도 초기화
         Speed = 5.0f;
         hitCount = 0;
@@ -70,8 +85,7 @@ public class PlayerController : MonoBehaviour
         DirLeft = false;
         DirRight = false;
 
-        for (int i = 0; i < 7; ++i)
-            stageBack[i] = GameObject.Find(i.ToString());
+       
     }
 
     // 유니티 기본 제공 함수
@@ -82,19 +96,19 @@ public class PlayerController : MonoBehaviour
         // Input.GeAxisRaw = -1, 0, 1 반환a
         // Input.GeAxis = -1.0f ~ 1.0f 반환
         float Hor = Input.GetAxisRaw("Horizontal");
-        float Ver = 0;
-        //float Ver = Input.GetAxisRaw("Vertical");
+        float Ver = Input.GetAxisRaw("Vertical");
 
         Movement = new Vector3(
           Hor * Time.deltaTime * Speed,
-          Ver * Time.deltaTime * Speed,
+          0.0f,
           0.0f);
 
         // Hor이 0이라면 멈춰있는 상태이므로 예외처리
         if (Hor != 0)
             Direction = Hor;
 
-       
+
+        transform.position += new Vector3(0.0f, Ver * Time.deltaTime * Speed, 0.0f);
 
         if (Input.GetKey(KeyCode.RightArrow)|| Input.GetKey(KeyCode.D))
         {            
@@ -376,6 +390,10 @@ public class PlayerController : MonoBehaviour
 
         // 모든 설정 종료 시 저장소에 보관
         Bullets.Add(Obj);
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        print(123);
     }
 
 

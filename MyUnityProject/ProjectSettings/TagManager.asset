@@ -6,6 +6,7 @@ TagManager:
   tags:
   - wall
   - FxTemporaire
+  - BackGround
   layers:
   - Default
   - TransparentFX
