@@ -6,12 +6,12 @@ TagManager:
   tags:
   - wall
   - FxTemporaire
-  - BackGround
+  - Bullet
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
   - 

@@ -45,23 +45,24 @@ public class BulletController : MonoBehaviour
         // 이펙트효과 복제
         GameObject Obj = Instantiate(fxPrefab);
 
-        // 진동효과를 담당하는 관리자 생성
-        GameObject camera = new GameObject("Camera Test");
-
-        // 진동효과 생성
-        camera.AddComponent<CameraController>();
-
         // 이펙트 효과의 위치를 지정
         Obj.transform.position = transform.position;
 
+        
+
         // 충돌한 대상을 삭제
-        if(collision.transform.tag != "wall" && collision.transform.tag != "BackGround")
-            Destroy(collision.transform.gameObject);
-        else
+        if(collision.transform.tag == "wall")
             Destroy(this.gameObject);
+        else
+        {
+            // 진동효과를 담당하는 관리자 생성
+            GameObject camera = new GameObject("Camera Test");
+            // 진동효과 생성
+            camera.AddComponent<CameraController>();     
+        }
             
         if (hp == 0)
-            Destroy(this.gameObject);
+            Destroy(this.gameObject, 0.016f);
     }
     private void OnTriggerStay2D(Collider2D collision)
     {

@@ -31,8 +31,6 @@ public class PlayerController : MonoBehaviour
     // 복사할 FX 원본
     private GameObject fxPrefab;
 
-    //public GameObject[] stageBack = new GameObject[7];
-
     // dictianary<string, GameObject> asd;
 
     // 배경화면 저장 공간
@@ -40,7 +38,11 @@ public class PlayerController : MonoBehaviour
     // 플레이어가 마지막으로 바라본 방향
     private float Direction;
 
+    [Header("방향")]
+    // ** 플레이어가 바라본 방향
+    [Tooltip("왼쪽")]
     public bool DirLeft;
+    [Tooltip("오른쪽")]
     public bool DirRight;
 
    
@@ -55,16 +57,17 @@ public class PlayerController : MonoBehaviour
 
         // [Resources] 폴더에서 사용할 리소스를 들고온다. "Resources" 라는 폴더가 존재해야함
         BulletPrefab = Resources.Load("Prefabs/Bullet") as GameObject;
-        fxPrefab = Resources.Load("Prefabs/FX/Smoke") as GameObject;
+        //fxPrefab = Resources.Load("Prefabs/FX/Smoke") as GameObject;
+        fxPrefab = Resources.Load("Prefabs/FX/Hit") as GameObject;
         //for (int i = 0; i < 7; ++i)
         //    stageBack.Add(GameObject.Find(i.ToString()));
-        stageBack.Add(GameObject.Find("0"));
-        stageBack.Add(GameObject.Find("1"));
-        stageBack.Add(GameObject.Find("2"));
-        stageBack.Add(GameObject.Find("3"));
-        stageBack.Add(GameObject.Find("4"));
-        stageBack.Add(GameObject.Find("5"));
-        stageBack.Add(GameObject.Find("6"));
+        //stageBack.Add(GameObject.Find("0"));
+        //stageBack.Add(GameObject.Find("1"));
+        //stageBack.Add(GameObject.Find("2"));
+        //stageBack.Add(GameObject.Find("3"));
+        //stageBack.Add(GameObject.Find("4"));
+        //stageBack.Add(GameObject.Find("5"));
+        //stageBack.Add(GameObject.Find("6"));
     }
     void Start()
     {
@@ -108,7 +111,7 @@ public class PlayerController : MonoBehaviour
             Direction = Hor;
 
 
-        transform.position += new Vector3(0.0f, Ver * Time.deltaTime * Speed, 0.0f);
+        transform.position += new Vector3(0.0f, Ver * Time.deltaTime * 2.5f, 0.0f);
 
         if (Input.GetKey(KeyCode.RightArrow)|| Input.GetKey(KeyCode.D))
         {            
@@ -133,7 +136,8 @@ public class PlayerController : MonoBehaviour
                 transform.position += Movement;
         }
 
-        if (Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.LeftArrow))
+        if (Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.LeftArrow)
+            || Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.A))
         {
             ControllerManager.GetInstance().DirRight = false;
             ControllerManager.GetInstance().DirLeft = false;
