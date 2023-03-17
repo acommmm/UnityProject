@@ -365,6 +365,7 @@
 "Assets/FX/CFX_AutoDestructShuriken.cs"
 "Assets/FX/CFX_LightIntensityFade.cs"
 "Assets/Script/BackGroundController.cs"
+"Assets/Script/BossController.cs"
 "Assets/Script/BulletController.cs"
 "Assets/Script/CameraController.cs"
 "Assets/Script/ControllerManager.cs"
@@ -373,7 +374,6 @@
 "Assets/Script/EnemyManager.cs"
 "Assets/Script/MyGizmo.cs"
 "Assets/Script/PlayerController.cs"
-"Assets/Script/Test.cs"
 -langversion:9.0
 
 /deterministic

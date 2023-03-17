@@ -23,11 +23,17 @@ public class EnemyManager : MonoBehaviour
     // ** Enemy로 사용할 원형 객체
     private GameObject Prefab;
 
+    // ** 플레이어의 누적 이동 거리
+    public float Distance;
+
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
+
+            Distance = 0.0f;
+
             // ** 씬이 변경되어도 계속 유지될수 있게 해준다.
             DontDestroyOnLoad(this.gameObject);
 
@@ -64,8 +70,16 @@ public class EnemyManager : MonoBehaviour
         
     }
 
+    private void Update()
+    {
+        if(ControllerManager.GetInstance().DirRight)
+        {
+            Distance += Input.GetAxisRaw("Horizontal") * Time.deltaTime;
+        }
+    }
+
     public void CreateTest()
     {
-        
+
     }
 }

@@ -62,8 +62,8 @@ public class BackGroundController : MonoBehaviour
         // 플레이어가 바라보고있는 방향에 따라 분기된다.
         if(ControllerManager.GetInstance().DirRight)
         {
-            endPoint -= movemane.x;
             transform.position -= movemane;
+            endPoint -= movemane.x;
         }
 
         //movemane = Vector3.zero;
