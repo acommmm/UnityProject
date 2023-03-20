@@ -16,7 +16,7 @@ public class BossBulletController : MonoBehaviour
     void Start()
     {
         Direction = (targetPosition - transform.position).normalized;
-        speed = 1.0f;
+        speed = 3.0f;
     }
 
     void Update()

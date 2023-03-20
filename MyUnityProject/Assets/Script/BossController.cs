@@ -71,7 +71,7 @@ public class BossController : MonoBehaviour
         if(!Active)
         {
             CoolDown -= Time.deltaTime;
-            SlideCool -= Time.deltaTime;
+            //SlideCool -= Time.deltaTime;
             // 행동을 고른다
             if (CoolDown <= 0)
             {
@@ -153,7 +153,7 @@ public class BossController : MonoBehaviour
         Attack = true;
         float Distance = Vector3.Distance(EndPoint, transform.position);
 
-        if (Distance > 5.0f)
+        if (Distance > 6.0f)
         {
             Anim.SetTrigger("Attack");// 투사체 발사
 
@@ -195,7 +195,7 @@ public class BossController : MonoBehaviour
         float Distance = Vector3.Distance(Target.transform.position, transform.position);
 
         // 도착지 까지의 거리가 멀다
-        if(Distance > 0.5f)
+        if(Distance > 1.2f)
         {
             print("Walk");
 
@@ -209,7 +209,7 @@ public class BossController : MonoBehaviour
                 0.0f);
 
             transform.position += Movement * Time.deltaTime;
-            Anim.SetFloat("Speed", Mathf.Abs(Movement.x));
+            Anim.SetFloat("Speed", Mathf.Abs(Movement.x) + Mathf.Abs(Movement.y));
         }
         else
             Active = false;
@@ -222,9 +222,8 @@ public class BossController : MonoBehaviour
         float Distance = Vector3.Distance(EndPoint, transform.position);
 
         // 도착지 까지의 거리가 멀다
-        if (Distance > 0.5f)
+        if (Distance > 1.2f)
         {
-            print("Slide");
             if (Anim.GetBool("PreSlide") == false)
                 Anim.SetBool("PreSlide", true);
 
@@ -234,15 +233,14 @@ public class BossController : MonoBehaviour
 
             // 도착지 까지 이동.
             Movement = new Vector3(
-                Speed * Direction.x,
-                Speed * Direction.y,
+                Speed * Direction.x * 5.0f,
+                Speed * Direction.y * 5.0f,
                 0.0f);
 
             transform.position += Movement * Time.deltaTime * 1.0f;
         }
         else
         {
-            print("EndSlide");
             Anim.SetBool("Slide", false);
             Anim.SetBool("PreSlide", false);
             SlideCool = SCoolDefault;

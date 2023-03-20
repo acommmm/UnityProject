@@ -19,7 +19,7 @@ public class BulletController : MonoBehaviour
     private void Start()
     {
         // 속도 초기값
-        Speed = 10.0f;
+        Speed = ControllerManager.GetInstance().BulletSpeed;
         // 총알의 최대 충돌 횟수 지정
         hp = 2;
     }
